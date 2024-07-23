@@ -28,6 +28,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.springframework.web.bind.annotation.RequestMethod;//추가된 import 문 
+import org.springframework.ui.Model; //추가된 import 문 
+import jakarta.xml.bind.DatatypeConverter;// 추가된 import 문
+import java.security.MessageDigest;// 추가된 import 문
+import java.security.NoSuchAlgorithmException; // 추가된 import 문
+import org.springframework.web.bind.annotation.PathVariable; // 추가된 import 문
+
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -161,4 +170,31 @@ public class UserController {
         model.addAttribute("pageSize", size);
         return "users/users-list";
     }
+
+
+    
+    // kdt project 부하테스트 
+     @RequestMapping(value = "/cpubound/{input}", method = RequestMethod.GET)
+    public String getDigest(@PathVariable("input") String input, Model model) throws NoSuchAlgorithmException {
+        for (int i = 0; i < 100_000; i++) {
+            input = getMD5Digest(input);
+        }
+        model.addAttribute("result", input); 
+        return "cpubound_form";  
+    }
+
+    
+
+    private String getMD5Digest(String input) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(input.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
+
+        // String myHash = DatatypeConverter
+        //         .printHexBinary(digest).toUpperCase();
+
+        // return myHash;
+    }
+
 }

@@ -14,7 +14,7 @@ public class ApiMockController {
     @GetMapping
     public ResponseEntity<String> getApiMock() {
         return new ResponseEntity<>(
-            "Calling API root URL is not allowed. leegarden plus and pipeline and webhooks kt-cloud-webhooks-test-leegarden",
+            "Calling API root URL is not allowed. leegarden plus and pipeline and webhooks KTCloud-webhooks-test-leegarden",
             HttpStatus.FORBIDDEN);
     }
 
